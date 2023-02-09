@@ -2,11 +2,12 @@
 
 namespace App\Executes;
 use Illuminate\Support\Facades\App;
-use DB;
 use Session;
+use App\Models\UserActivityLogs;
+
 class UserActivityExecutions 
 {
-    public function insert($action, $reference)
+    public function create($action, $reference)
     {
         $user = Session::get('user');
 
@@ -17,6 +18,8 @@ class UserActivityExecutions
             'action' => $action,
             'reference' => $reference,
         ];
-        DB::table('user_activity_logs')->insert($user_activity_log);
+        return UserActivityLogs::create($user_activity_log);
     }
+
+
 }

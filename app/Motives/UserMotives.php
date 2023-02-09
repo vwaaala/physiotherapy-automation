@@ -15,12 +15,7 @@ class UserMotives
      */
     public function create($data)
     {
-        $action = App::make(UserExecutions::class)->create($data);
-        if($action){
-            return ['status'=> true, 'message'=> 'Success'];
-        }else{
-            return ['status'=> false, 'message'=> 'Failed'];
-        }
+        return App::make(UserExecutions::class)->create($data);
     }
     public function get($id){
         return App::make(UserExecutions::class)->get($id);

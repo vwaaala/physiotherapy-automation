@@ -11,6 +11,9 @@ use DB;
 use Hash;
 use Session;
 use App\Models\User;
+use App\Executes\UserExecutions;
+use App\Executes\UserActivityExecutions;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -67,12 +70,14 @@ class UserController extends Controller
             'role' => $request->role,
             // TODO status_notes handle this field f.ex: activated by admin manually
         ];
+
         // Motive
         DB::beginTransaction();
         try{
-            $new_user = User::create($user_data);
-            if($new_user){
+            $motive = App::make(UserExecutions::class)->create($user_data);
+            if($motive){
                 $request->image->move(public_path('admin/assets/images/avatar/'), $image);
+                App::make(UserActivityExecutions::class)->create('Modified user', $request->email);
             }
             DB::commit();
             Toastr::success('Create new account successfully :)','Success');
