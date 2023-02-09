@@ -40,11 +40,22 @@
                         </ul>
                     </li>
 
+                    <!-- Site Section -->
+                    <li class="menu-title"> <span>Site</span> </li>
+                    <li class="submenu {{ (request()->is('admin/portfolio*')) ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="la la-globe-asia"></i> <span>Portfolio</span> <span class="menu-arrow"></span>
+                        </a>
+                        <ul style="display: none;">
+                            <li><a class="{{ (request()->is('admin/portfolio/contact-us-requests')) ? 'active' : '' }}" href="{{ route('admin.portfolio.contact_us_index') }}">Contact Requests</a></li>
+                        </ul>
+                    </li>
+
                     <!-- Accounting Section -->
                     <li class="menu-title"> <span>Settings</span> </li>
                     <li class="submenu {{ (request()->is('admin/software-settings*')) ? 'active' : '' }}">
                         <a href="#">
-                            <i class="la la-user-alt"></i> <span>Software</span> <span class="menu-arrow"></span>
+                            <i class="la la-git"></i> <span>Software</span> <span class="menu-arrow"></span>
                         </a>
                         <ul style="display: none;">
                             <li><a class="{{ (request()->is('admin/software-settings/profile')) ? 'active' : '' }}" href="{{ route('admin.portfolio.profile') }}">Company Profile</a></li>
