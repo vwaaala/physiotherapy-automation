@@ -41,39 +41,39 @@ class UserController extends Controller
             'name'      => 'required|string|max:255',
             'email'     => 'required|string|email|max:255|unique:users',
             'password'  => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required',
             'gender'=> 'required|string',
+            'birth_date' => 'required|string',
             'blood_group'=> 'required|string',
-            'phone_number'=> 'required|string',
-            'role'=> 'required|string',
-            'user_status'=> 'required|string',
-            'dobday' => 'required|string',
-            'dobmonth' => 'required|string',
-            'dobyear' => 'required|string',
+            'address' => 'required|string',
             'image'     => 'required|image',
+            'phone_number'=> 'required|string',
+            'user_status'=> 'required|string',
+            'role'=> 'required|string',
         ]);
-        $birth_date = array($request->dobyear, $request->dobmonth, $request->dobday);
 
         $image = time().'.'.$request->image->extension();
-        $request->image->move(public_path('admin/assets/images/avatar/'), $image);
-
+        
         $user_data = [
             'name' => $request->name,
             'email' => $request->email,
-            'birth_date' => join("-",$birth_date),
-            'phone_number' => $request->phone,
-            'role' => $request->role,
-            'gender' => $request->gender,
-            'blood_group' => $request->blood_group,
-            'status' => $request->user_status,
-            // TODO status_notes handle this field f.ex: activated by admin manually
-            'avatar' => $image,
             'password' => Hash::make($request->password),
+            'gender' => $request->gender,
+            'birth_date' => $request->birth_date,
+            'blood_group' => $request->blood_group,
+            'address' => $request->address,
+            'avatar' => $image,
+            'phone_number' => $request->phone_number,
+            'status' => $request->user_status,
+            'role' => $request->role,
+            // TODO status_notes handle this field f.ex: activated by admin manually
         ];
         // Motive
         DB::beginTransaction();
         try{
-            App::make(UserMotives::class)->create($user_data);
+            $new_user = User::create($user_data);
+            if($new_user){
+                $request->image->move(public_path('admin/assets/images/avatar/'), $image);
+            }
             DB::commit();
             Toastr::success('Create new account successfully :)','Success');
             return redirect()->route('admin.users.index');
