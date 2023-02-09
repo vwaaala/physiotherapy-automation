@@ -45,8 +45,8 @@ class PortfolioController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    'status': 500,
-                    'message': 'Internal server error'
+                    'status'=> 500,
+                    'message'=> 'Internal server error'
                 ])
             }
         }
