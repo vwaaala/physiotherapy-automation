@@ -7,6 +7,7 @@
   "use strict";
 
   let forms = document.querySelectorAll('.php-email-form');
+  let csrf_token = document.getElementById("csrf-token");
 
   forms.forEach( function(e) {
     e.addEventListener('submit', function(event) {
@@ -16,7 +17,6 @@
 
       let action = thisForm.getAttribute('action');
       let recaptcha = thisForm.getAttribute('data-recaptcha-site-key');
-      
       if( ! action ) {
         displayError(thisForm, 'The form action property is not set!')
         return;
@@ -53,14 +53,16 @@
     fetch(action, {
       method: 'POST',
       body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
+      headers: {
+        'X-CSRF-TOKEN': csrf_token.getAttribute('content')
+      },
     })
     .then(response => {
-      return response.text();
+      return response.status;
     })
     .then(data => {
       thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
+      if (data === 200) {
         thisForm.querySelector('.sent-message').classList.add('d-block');
         thisForm.reset(); 
       } else {

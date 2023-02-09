@@ -33,10 +33,7 @@ use App\Http\Controllers\Doctor\DoctorController;
 
 Route::controller(PortfolioController::class)->prefix('/')->name('portfolio.')->group(function (){
     Route::get('/', 'index')->name('index');
-    Route::get('/services', 'services')->name('services');
-    Route::get('/doctors', 'doctors')->name('doctors');
-    Route::get('/about-us', 'about_us')->name('about');
-    Route::get('/contact-us', 'contact_us')->name('contact');
+    Route::post('/contact_us', 'contact_us')->name('contact_us');
 });
 /*
 ------------------------------Login-------------------------------
