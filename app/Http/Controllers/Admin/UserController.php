@@ -77,7 +77,7 @@ class UserController extends Controller
             $motive = App::make(UserExecutions::class)->create($user_data);
             if($motive){
                 $request->image->move(public_path('admin/assets/images/avatar/'), $image);
-                App::make(UserActivityExecutions::class)->create('Modified user', $request->email);
+                App::make(UserActivityExecutions::class)->create('Created new user', $request->email);
             }
             DB::commit();
             Toastr::success('Create new account successfully :)','Success');
@@ -117,14 +117,17 @@ class UserController extends Controller
             $update = [
                 'name' => $request->name,
                 'email' => $request->email,
-                'birth_date' => $request->birth_date,
-                'phone_number' => $request->phone_number,
-                'role' => $request->role,
                 'gender' => $request->gender,
+                'birth_date' => $request->birth_date,
                 'blood_group' => $request->blood_group,
-                'status' => $request->user_status,
+                'address' => $request->address,
                 'avatar' => $image_name,
+                'phone_number' => $request->phone_number,
+                'status' => $request->user_status,
+                'role' => $request->role,
+                // TODO status_notes handle this field f.ex: activated by admin manually
             ];
+
             $user_activity_log = [
                 'email' => $user->email,
                 'status' => $user->status,
@@ -132,8 +135,8 @@ class UserController extends Controller
                 'action' => 'Modified user',
                 'reference' => $request->email,
             ];
-            DB::table('user_activity_logs')->insert($user_activity_log);
-            User::where('id',$request->id)->update($update);
+            $motive = App::make(UserExecutions::class)->update($request->user_id, $update);
+            App::make(UserActivityExecutions::class)->create('Modified user', $request->email);
             DB::commit();
             Toastr::success('User updated successfully :)','Success');
             return redirect()->route('admin.users.index');

@@ -26,7 +26,7 @@ class UserExecutions
     }
 
     public function update($id, $data){
-        return User::where(['email' => $email])->update($data);
+        return User::where(['id' => $id])->update($data);
     }
 
     /**
