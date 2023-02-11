@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AppSettingController;
 use App\Http\Controllers\UserController as AllUserController;
-use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\PortfolioController as ClientPortfolioController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\RolePermissionsController;
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
@@ -32,9 +32,10 @@ use App\Http\Controllers\Doctor\DoctorController;
  * Portfolio routes
  */
 
-Route::controller(PortfolioController::class)->prefix('/')->name('portfolio.')->group(function (){
+Route::controller(ClientPortfolioController::class)->prefix('/')->name('portfolio.')->group(function (){
     Route::get('/', 'index')->name('index');
     Route::post('/contact_us', 'contact_us')->name('contact_us');
+    Route::post('/appointment', 'appointment')->name('make-appointment');
 });
 /*
 ------------------------------Login-------------------------------
