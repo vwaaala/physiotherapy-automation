@@ -10,17 +10,23 @@ return new class extends Migration
      * Run the migrations.
      *
      * @return void
+     * 
+     * status: pending, processing, success, dead
+     * notes: any text note for status
      */
     public function up()
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('phone_number');
             $table->string('date');
             $table->string('doctor');
-            $table->string('message');
+            $table->string('message')->default('');
+            $table->string('status')->default('pending');
+            $table->string('notes')->default('');
+            $table->string('created_by')->default('anonymous');
             $table->timestamps();
         });
     }

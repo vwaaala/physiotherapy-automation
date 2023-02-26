@@ -172,7 +172,7 @@
                     <div class="row"> 
                         <div class="col-sm-6"> 
                             <div class="form-group">
-                                <label>Name</label>
+                                <label>Full Name</label>
                                 <input class="form-control" type="text" name="name" value="{{ old('name') }}" />
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                         <div class="col-sm-6"> 
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" class="form-control" name="password" value="{{ old('password') }}" placeholder="Enter Password" required>
+                                <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

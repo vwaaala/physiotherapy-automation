@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController as AllUserController;
 use App\Http\Controllers\PortfolioController as ClientPortfolioController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\RolePermissionsController;
+use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\Doctor\DoctorController;
@@ -102,6 +103,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/profile', 'profile')->name('profile');
             Route::post('/store', 'store')->name('store');
             Route::post('/edit', 'edit')->name('edit');
+        });
+
+        // Appointment Controller
+        Route::controller(AdminAppointmentController::class)->prefix('/appointments')->name('appointments.')->group(function () {
+            Route::get('/all', 'all_appointment')->name('all');
+            Route::post('/create', 'create_appointment')->name('create');
         });
 
         // All routes for portfolio site

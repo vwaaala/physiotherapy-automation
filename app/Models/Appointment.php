@@ -12,10 +12,13 @@ class Appointment extends Model
     protected $table = 'appointments';
     protected $fillable = [
         'name',
-        'email',
+        'email', 
         'phone_number',
         'date',
-        'doctor',
+        'doctor', // email
         'message',
+        'status', // processing, success, spam
+        'notes', // nullable
+        'created_by', // email
     ];
 }

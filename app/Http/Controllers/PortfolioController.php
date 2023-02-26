@@ -72,18 +72,21 @@ class PortfolioController extends Controller
             ]);
         }
         else{
-            $appontment = AppointmentModel::create([
+            $appointment = AppointmentModel::create([
                 'name'=> $request->name,
                 'email'=> $request->email,
                 'phone_number'=> $request->phone_number,
                 'date'=> $request->appointment_date,
                 'doctor'=> $request->doctor,
                 'message' => $request->message,
+                'status' => 'pending',
+                'created_by' => 'anonymous'
             ]);
-            if($appontment){
+            if($appointment){
                 return response()->json([
                     'status' => 200,
-                    'message' => 'OK',
+                    'message' => 'hello',
+                    'appointment_id' => $appointment->id,
                 ]);
             }else{
                 return response()->json([

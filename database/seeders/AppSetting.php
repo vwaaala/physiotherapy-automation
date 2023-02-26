@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use DB;
+use App\Models\AppSetting as ModelAppSetting;
 
 class AppSetting extends Seeder
 {
@@ -15,7 +15,7 @@ class AppSetting extends Seeder
      */
     public function run()
     {
-        DB::table('app_settings')->insert([
+        ModelAppSetting::create([
             'company_name' => 'Sp Physiopoint',
             'contact_person' => 'Al-amin Prince',
             'address' => '31/35A Doctor para',
