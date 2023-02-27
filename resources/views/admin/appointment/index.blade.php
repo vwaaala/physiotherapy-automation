@@ -99,7 +99,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form data-action="{{ route('admin.appointments.create') }}" id="appointment-form">
+                <form data-action="{{ route('admin.appointments.store') }}" id="appointment-form">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">  
@@ -196,7 +196,7 @@
 </div>
 @endsection
 
-@section('js')
+@push('js')
 <!-- Select2 JS -->
 <script src="{{ URL::to('admin/assets/js/select2.min.js') }}"></script>
 
@@ -237,13 +237,13 @@
             {
                 toastr.success(response.message);
                 $('#add_appointment').modal('hide');
-                location.reload();
+                // location.reload();
             },
             error: function(response) {
-                alert(response.message);
+                toastr.success(response.message);
             }
         });
     });
         
 </script>
-@endsection
+@endpush

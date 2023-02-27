@@ -16,8 +16,12 @@ class AppointmentController extends Controller
         $appointments = $appointment::latest()->get();
         return view('admin.appointment.index', compact('appointments'));
     }
-
-    public function create_appointment(Request $request){
+    
+    public function create()
+    {
+        return view('admin.appointment.add');
+    }
+    public function store(Request $request){
 
         $validator = Validator::make($request->all(), [
             'appointment_date' => 'required|string',

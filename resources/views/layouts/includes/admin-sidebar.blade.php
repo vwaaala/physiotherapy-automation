@@ -17,6 +17,30 @@
                         </ul>
                     </li>
 
+                    <!-- Site Section -->
+                    <li class="menu-title"> <span>Appointment</span> </li>
+                    <li class="submenu {{ (request()->is('admin/appointments*')) ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="la la-meetup"></i> <span>Appointments</span> <span class="menu-arrow"></span>
+                        </a>
+                        <ul style="display: none;">
+                            <li>
+                                <a class="{{ (request()->is('admin/appointments/all')) ? 'active' : '' }}"
+                                href="{{ route('admin.appointments.all') }}"
+                                >
+                                    All Appointments
+                                </a>
+                            </li>
+                            <li>
+                                <a class="{{ (request()->is('admin/appointments/create')) ? 'active' : '' }}"
+                                href="{{ route('admin.appointments.create') }}"
+                                >
+                                    Create Appointment
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <!-- Auth Guard Section -->
                     <li class="menu-title"> <span>Auth Guard</span> </li>
                     <li class="submenu {{ (request()->is('admin/users*')) ? 'active' : '' }}">

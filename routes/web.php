@@ -108,7 +108,8 @@ Route::middleware(['auth'])->group(function () {
         // Appointment Controller
         Route::controller(AdminAppointmentController::class)->prefix('/appointments')->name('appointments.')->group(function () {
             Route::get('/all', 'all_appointment')->name('all');
-            Route::post('/create', 'create_appointment')->name('create');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
         });
 
         // All routes for portfolio site

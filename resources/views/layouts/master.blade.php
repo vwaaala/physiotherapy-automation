@@ -87,7 +87,7 @@
 		<script src="{{ URL::to('admin/assets/js/app.js') }}"></script>
 
 
-		@yield('js')
 		{!! Toastr::message() !!}
+		@stack('js')
     </body>
 </html>
