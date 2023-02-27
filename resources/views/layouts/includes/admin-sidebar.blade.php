@@ -43,14 +43,22 @@
 
                     <!-- Auth Guard Section -->
                     <li class="menu-title"> <span>Auth Guard</span> </li>
-                    <li class="submenu {{ (request()->is('admin/users*')) ? 'active' : '' }}">
+                    <li class="submenu {{ (request()->is('admin/users/*')) ? 'active' : '' }}">
                         <a href="#">
-                            <i class="la la-user-alt"></i> <span> Users and Activities</span> <span class="menu-arrow"></span>
+                            <i class="la la-user-alt"></i> <span> Users</span> <span class="menu-arrow"></span>
                         </a>
                         <ul style="display: none;">
                             <li><a class="{{ (request()->is('admin/users/index')) ? 'active' : '' }}" href="{{ route('admin.users.index') }}">All Users</a></li>
-                            <li><a class="{{ (request()->is('admin/users/activity-log')) ? 'active' : '' }}" href="{{ route('admin.users.activity-log') }}">Activity Logs</a></li>
-                            <li><a class="{{ (request()->is('admin/users/user-activity-log')) ? 'active' : '' }}" href="{{ route('admin.users.user-activity-log') }}">User Other Activity Logs</a></li>
+                            <li><a class="{{ (request()->is('admin/users/create')) ? 'active' : '' }}" href="{{ route('admin.users.create') }}">Create User</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu {{ (request()->is('admin/users-activity*')) ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="la la-snowboarding"></i> <span> Activities</span> <span class="menu-arrow"></span>
+                        </a>
+                        <ul style="display: none;">
+                            <li><a class="{{ (request()->is('admin/users-activity/normal')) ? 'active' : '' }}" href="{{ route('admin.users-activity.normal-log') }}">Activity Logs</a></li>
+                            <li><a class="{{ (request()->is('admin/users-activity/advance')) ? 'active' : '' }}" href="{{ route('admin.users-activity.advance-log') }}">User Other Activity Logs</a></li>
                         </ul>
                     </li>
                     <li class="submenu {{ (request()->is('admin/role*')) ? 'active' : '' }}">

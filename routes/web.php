@@ -91,13 +91,16 @@ Route::middleware(['auth'])->group(function () {
         // All routes for users
         Route::controller(UserController::class)->prefix('/users')->name('users.')->group(function(){
             Route::get('/index', 'index')->name('index');
-            Route::get('/activity-log', 'activityLog')->name('activity-log');
-            Route::get('/user-activity-log', 'userActivityLog')->name('user-activity-log');
-            Route::post('/add', 'addUser')->name('add-user');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/add', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
             Route::post('/delete', 'delete')->name('delete');
         });
         
+        Route::controller(UserController::class)->prefix('/users-activity')->name('users-activity.')->group(function(){
+            Route::get('/normal', 'activityLog')->name('normal-log');
+            Route::get('/advance', 'userActivityLog')->name('advance-log');
+        });
         // Portfolio Controller
         Route::controller(AppSettingController::class)->prefix('/software-settings')->name('portfolio.')->group(function () {
             Route::get('/profile', 'profile')->name('profile');

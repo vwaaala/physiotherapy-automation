@@ -168,7 +168,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.users.add-user') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row"> 
                         <div class="col-sm-6"> 
@@ -179,7 +179,7 @@
                         </div>
                         <div class="col-sm-6"> 
                             <label>Email</label>
-                            <input class="form-control" type="text" name="email" value="{{ old('email') }}"/>
+                            <input class="form-control" type="email" name="email" value="{{ old('email') }}"/>
                         </div>
                     </div>
                     <div class="row"> 
