@@ -85,8 +85,9 @@
                             <div class="dropdown dropdown-action">
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item userUpdate" href="#" data-toggle="modal" data-id="'.$user->id.'" data-target="#edit_user"><i class="fa fa-pencil m-r-5"></i>Edit</a>
-                                    <a class="dropdown-item userDelete" href="#" data-toggle="modal" data-id="'.$user->id.'" data-target="#delete_user"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                    <a class="dropdown-item userUpdate" href="#" data-toggle="modal" data-target="#edit_user"><i class="fa fa-pencil m-r-5"></i>Edit</a>
+                                    <a class="dropdown-item userDelete" href="#" data-toggle="modal" data-target="#delete_user">
+                                        <i class="fa fa-trash-o m-r-5"></i>delete</a>
                                 </div>
                             </div>
                         </td>
@@ -319,6 +320,40 @@
 
 
 <!-- Edit User Modal -->
+<div class="modal custom-modal fade" id="delete_user" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <div class="user-info"></div>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <form action="{{ route('admin.users.delete')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" class="e_id" value="">
+                        <input type="hidden" name="avatar" class="e_avatar" value="">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary continue-btn submit-btn">Delete</button>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal custom-modal fade" id="edit_user" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -329,7 +364,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.users.update-user') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.users.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="user_id" id="e_id" value="">
                     <div class="row"> 
@@ -462,35 +497,6 @@
     </div>
 </div>
 
-
-<!-- Delete User Modal -->
-<div class="modal custom-modal fade" id="delete_user" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-header">
-                    <div class="user-info"></div>
-                    <p>Are you sure want to delete?</p>
-                </div>
-                <div class="modal-btn delete-action">
-                    <form action="{{ route('admin.users.delete-user')}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" class="e_id" value="">
-                        <input type="hidden" name="avatar" class="e_avatar" value="">
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-primary continue-btn submit-btn">Delete</button>
-                            </div>
-                            <div class="col-6">
-                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
 

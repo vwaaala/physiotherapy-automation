@@ -90,7 +90,7 @@ class UserController extends Controller
     }
 
     // Update user
-    public function updateUser(Request $request)
+    public function update(Request $request)
     {
         $user = Auth::User();
         Session::put('user', $user);
@@ -149,7 +149,7 @@ class UserController extends Controller
     }
 
     // Delete user
-    public function deleteUser(Request $request)
+    public function delete(Request $request)
     {
         $user = Auth::User();
         Session::put('user', $user);
@@ -167,8 +167,8 @@ class UserController extends Controller
             if($request->avatar =='photo_defaults.jpg'){
                 User::destroy($request->id);
             }else{
-                User::destroy($request->id);
-                unlink('assets/images/avatar/'.$request->avatar);
+                unlink('admin/assets/images/avatar/'.$request->avatar);
+                User::where('id',$request->id)->delete();
             }
             DB::table('user_activity_logs')->insert($user_activity_log);
             DB::commit();

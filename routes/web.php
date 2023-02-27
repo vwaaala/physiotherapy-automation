@@ -94,8 +94,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/activity-log', 'activityLog')->name('activity-log');
             Route::get('/user-activity-log', 'userActivityLog')->name('user-activity-log');
             Route::post('/add', 'addUser')->name('add-user');
-            Route::post('/update', 'updateUser')->name('update-user');
-            Route::post('/delete', 'deleteUser')->name('delete-user');
+            Route::post('/update', 'update')->name('update');
+            Route::post('/delete', 'delete')->name('delete');
         });
         
         // Portfolio Controller
