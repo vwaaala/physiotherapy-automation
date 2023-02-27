@@ -28,7 +28,6 @@
     </div>
 </div>
 
-
 <!-- Table  -->
 <div class="row">
     <div class="col-md-12">
@@ -100,14 +99,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="appointment-form">
+                <form data-action="{{ route('admin.appointments.create') }}" id="appointment-form">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">  
                             <div class="form-group">
                                 <label class="col-form-label">Appointment Date <span class="text-danger">*</span></label>
-                                <div class="cal-icon"><input class="form-control datetimepicker" name="appointment_date" type="text" required=""></div>
-                                @error('date')
+                                <div class="cal-icon">
+                                    <input class="form-control datetimepicker @error('appointment_date') is-invalid @enderror" name="appointment_date" value="{{ old('appointment_date')}}" type="text">
+                                </div>
+                                @error('appointment_date')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -117,7 +118,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Patient Name <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="name" required="">
+                                <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ old('name') }}">
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -127,33 +128,33 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group form-focus select-focus">
-								<select class="select floating" name="doctor" required> 
-									<option> -- Select -- </option>
-									<option value="doctor@physiopoint.com">doctor@physiopoint.com</option>
-								</select>
-								<label class="focus-label">Status <span class="text-danger">*</span></label>
+                                <select class="select floating @error('doctor') is-invalid @enderror" name="doctor"> 
+                                    <option> -- Select -- </option>
+                                    <option value="doctor@physiopoint.com">doctor@physiopoint.com</option>
+                                </select>
+                                <label class="focus-label">Status <span class="text-danger">*</span></label>
                                 @error('doctor')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-							</div>
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group form-focus select-focus">
-								<select class="select floating" name="appointment_status" required=""> 
-									<option> -- Select -- </option>
-									<option value="processing">Processing</option>
-									<option value="success">Success</option>
-									<option value="spam">Spam</option>
-								</select>
-								<label class="focus-label">Status <span class="text-danger">*</span></label>
-                                @error('status')
+                                <select class="select floating @error('appointment_status') is-invalid @enderror" name="appointment_status"> 
+                                    <option> -- Select -- </option>
+                                    <option value="processing">Processing</option>
+                                    <option value="success">Success</option>
+                                    <option value="spam">Spam</option>
+                                </select>
+                                <label class="focus-label">Status <span class="text-danger">*</span></label>
+                                @error('appointment_status')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-							</div>
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -164,7 +165,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Phone <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="phone_number">
+                                <input class="form-control @error('phone_number') is-invalid @enderror" type="text" name="phone_number">
                                 @error('phone_number')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -214,39 +215,35 @@
     });
 </script>
 
-<script>
-    $(document).ready(function(){
-        const new_appointment = '#appointment-form';
+<script type="text/javascript">
+    
+    var form = '#appointment-form';
 
-        $(new_appointment).on('submit', function(event){
-            event.preventDefault();
-            $form_data = new FormData(this);
-            $.ajax({
-                url: "{{ route('admin.appointments.create')}}",
-                method: 'POST',
-                data: $form_data,
-                dataType: 'JSON',
-                contentType: false,
-                cache: false,
-                processData: false,
-                success:function(response)
-                {
-                    console.log(response);
-                    // modal jQuery extension's 'hide' method
-                    if(response.status===200){
-                        toastr.success("Created new appointment");
-                        location.realod();
-                    }else{
-                        console.log($form_data);
-                        toastr.error(response.message);
-                    }
-                },
-                error: function(response) {
-                    console.log($form_data);
-                    toastr.error(response);
-                }
-            });
+    $(form).on('submit', function(event){
+        event.preventDefault();
+        let data = new FormData(this);
+
+        var url = $(this).attr('data-action');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(response)
+            {
+                toastr.success(response.message);
+                $('#add_appointment').modal('hide');
+                location.reload();
+            },
+            error: function(response) {
+                alert(response.message);
+            }
         });
     });
+        
 </script>
 @endsection

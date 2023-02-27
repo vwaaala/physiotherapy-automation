@@ -13,17 +13,17 @@ class AppointmentController extends Controller
 {
     //
     public function all_appointment(Appointment $appointment){
-        $appointments = $appointment::all();
+        $appointments = $appointment::latest()->get();
         return view('admin.appointment.index', compact('appointments'));
     }
 
     public function create_appointment(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'phone_number'=> 'required|numeric',
             'appointment_date' => 'required|string',
+            'name' => 'required|string',
             'doctor' => 'required|email',
+            'phone_number' => 'required|numeric',
             'appointment_status' => 'required|string'
         ]);
         if($validator->fails()){
@@ -32,11 +32,11 @@ class AppointmentController extends Controller
                 'message' => $validator->errors(),
             ]);
         }else{
-            $email = $request->email ? $request->email : '';
-            $message = $request->message ? $request->message : '';
-            $notes = $request->notes ? $request->note : '';
+            $email = $request->email ? $request->email : "";
+            $message = $request->message ? $request->message : "";
+            $notes = $request->notes ? $request->notes : "";
 
-            $appontment = Appointment::create([
+            $appointment = Appointment::create([
                 'name' => $request->name,
                 'email' => $email,
                 'phone_number' => $request->phone_number,
@@ -50,7 +50,7 @@ class AppointmentController extends Controller
             if($appointment){
                 return response()->json([
                     'status' => 200,
-                    'message' => 'ok',
+                    'message' => 'Created new appointment!',
                 ]);
             }else{
                 log($request->all());
