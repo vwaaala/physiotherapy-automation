@@ -355,7 +355,7 @@
                             <div class="form-group">
                                 <label>Photo</label>
                                 <input class="form-control" type="file" name="image">
-                                <input type="hidden" name="hidden_image" value="">
+                                <input type="hidden" id="user_prev_image" name="hidden_image" value="">
                             </div>
                         </div>
                     </div>
@@ -463,7 +463,7 @@
 </div>
 
 
-<!-- Edit User Modal -->
+<!-- Delete User Modal -->
 <div class="modal custom-modal fade" id="delete_user" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -494,7 +494,7 @@
 
 @endsection
 
-@section('js')
+@push('js')
 <!-- Select2 JS -->
 <script src="{{ URL::to('admin/assets/js/select2.min.js') }}"></script>
 
@@ -522,7 +522,7 @@
         $('#user_email').val(_this.find('.email').text());
         $('#user_address').val(_this.find('.address').text());
         $('#user_birth_date').val(_this.find('.dob').text());
-        $('#user_image').val(_this.find('.image').text());
+        $('#user_prev_image').val(_this.find('.image').text());
         $('#user_phone_number').val(_this.find('.phone_number').text());
         $('#user_image').val(_this.find('.image').text());
 
@@ -554,4 +554,4 @@
         $('.user-info').html(_this.find('.table-avatar').clone());
     });
 </script>
-@endsection
+@endpush
