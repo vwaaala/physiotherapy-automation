@@ -318,6 +318,41 @@
         </div>
     </div>
 </div>
+
+<!-- Delete Appointment Modal -->
+<div class="modal custom-modal fade" id="delete_appointment" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Appointment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <div class="user-info"></div>
+                    <p>Are you sure want to delete?</p>
+                    <p class="d-name"></p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <form data-action="{{ route('admin.appointments.destroy') }}" id="delete-appointment-form">
+                        @csrf
+                        <input type="hidden" name="id" class="d_id" value="">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary continue-btn submit-btn">Delete</button>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('js')
@@ -423,10 +458,36 @@
     $(document).on('click','.appointment-delete',function()
     {
         var _this = $(this).parents('tr');
-        $('.e_id').val(_this.find('.id').text());
-        $('.e_avatar').val(_this.find('.image').text());
-        
-        $('.user-info').html(_this.find('.table-avatar').clone());
+        $('.d_id').val(_this.find('.id').text());
+        console.log(_this.find('.id').text());
+    });
+    var form = '#delete-appointment-form';
+
+    $(form).on('submit', function(event){
+        event.preventDefault();
+        let data = new FormData(this);
+
+        var url = $(this).attr('data-action');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(response)
+            {
+                toastr.success(response.message);
+                alert(response.message);
+                $('#add_appointment').modal('hide');
+                location.reload();
+            },
+            error: function(response) {
+                toastr.error(response.message);
+            }
+        });
     });
 </script>
 @endpush

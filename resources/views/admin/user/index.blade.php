@@ -319,7 +319,7 @@
 </div>
 
 
-<!-- Edit User Modal -->
+<!-- Delete User Modal -->
 <div class="modal custom-modal fade" id="delete_user" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

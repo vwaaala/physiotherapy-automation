@@ -37,7 +37,8 @@ class AppointmentController extends Controller
                 'status' => 419,
                 'message' => $validator->errors(),
             ]);
-        }else{
+        }else
+        {
             $email = $request->email ? $request->email : "";
             $message = $request->message ? $request->message : "";
             $notes = $request->notes ? $request->notes : "";
@@ -115,5 +116,25 @@ class AppointmentController extends Controller
             }
         }
 
+    }
+
+    public function destroy(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => 419,
+                'message' => $validator->errors(),
+            ]);
+        }else
+        {
+            Appointment::where(['id' => $request->id])->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Deleted appointment',
+            ]);
+        }
     }
 }
