@@ -113,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/all', 'all_appointment')->name('all');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
         });
 
         // All routes for portfolio site
