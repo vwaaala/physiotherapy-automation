@@ -29,7 +29,12 @@ class UserController extends Controller
         $user_status = DB::table('user_status_type')->get();
         return view('admin.user.index', compact('users', 'roles', 'user_status', ));
     }
-
+     public function create()
+     {
+        $roles = DB::table('roles')->get();
+        $user_status = DB::table('user_status_type')->get();
+        return view('admin.user.create', compact('roles', 'user_status',));
+     }
     // 
     public function activityLog()
     {
@@ -38,36 +43,34 @@ class UserController extends Controller
     }
 
     // 
-    public function addUser(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name'      => 'required|string|max:255',
             'email'     => 'required|string|email|max:255|unique:users',
             'password'  => 'required|string|min:8|confirmed',
-            'gender'=> 'required|string',
-            'birth_date' => 'required|string',
-            'blood_group'=> 'required|string',
-            'address' => 'required|string',
-            'image'     => 'required|image',
             'phone_number'=> 'required|string',
-            'user_status'=> 'required|string',
             'role'=> 'required|string',
+            'user_status'=> 'required|string',
+            'gender'=> 'required|string',
+            'address' => 'required|string',
         ]);
 
-        $image = time().'.'.$request->image->extension();
+        $image = $request->image ? time().'.'.$request->image->extension() : "photo_defaults.jpg";
         
         $user_data = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone_number' => $request->phone_number,
             'gender' => $request->gender,
-            'birth_date' => $request->birth_date,
-            'blood_group' => $request->blood_group,
+            'birth_date' => $request->birth_date ? $request->birth_date : "" ,
+            'role' => $request->role,
+            'status' => $request->user_status,
+            'blood_group' => $request->blood_group ? $request->blood_group : "",
             'address' => $request->address,
             'avatar' => $image,
-            'phone_number' => $request->phone_number,
             'status' => $request->user_status,
-            'role' => $request->role,
             // TODO status_notes handle this field f.ex: activated by admin manually
         ];
 
@@ -76,8 +79,11 @@ class UserController extends Controller
         try{
             $motive = App::make(UserExecutions::class)->create($user_data);
             if($motive){
-                $request->image->move(public_path('admin/assets/images/avatar/'), $image);
-                App::make(UserActivityExecutions::class)->create('Created new user', $request->email);
+                if($request->image)
+                {
+                    $request->image->move(public_path('admin/assets/images/avatar/'), $image);
+                }
+                App::make(UserActivityExecutions::class)->create('Created new user', $request->phone_number);
             }
             DB::commit();
             Toastr::success('Create new account successfully :)','Success');

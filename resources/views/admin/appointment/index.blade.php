@@ -17,7 +17,7 @@
         <div class="col">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Users</li>
+                <li class="breadcrumb-item active">All Appointments</li>
             </ul>
         </div>
         <div class="col-auto float-right ml-auto">
@@ -39,11 +39,11 @@
                         <th>ID</th>
                         <th class="text-nowrap">Date</th>
                         <th>Name</th>
-                        <th>Email</th>
+                        <th>Status</th>
                         <th>Phone</th>
                         <th>Doctor</th>
                         <th class="text-nowrap">Created At</th>
-                        <th>Status</th>
+                        <th>Email</th>
                         <th class="text-nowrap">Updated At</th>
                     </tr>
                 </thead>
@@ -62,22 +62,29 @@
                         <td class="id">{{ $appointment->id }}</td>
                         <td class="date">{{ $appointment->date }}</td>
                         <td class="name">{{ $appointment->name }}</td>
-                        <td class="email">{{ $appointment->email }}</td>
-                        <td class="phone_number">{{ $appointment->phone_number }}</td>
-                        <td class="doctor">{{ $appointment->doctor }}</td>
-                        <td>{{ $appointment->created_at }}</td>
                         <td class="text-center">
                             <div class="dropdown action-label">
                                 <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-dot-circle-o text-warning"></i> Processing
+                                    @if( $appointment->status == 'processing')
+                                        <i class="fa fa-dot-circle-o text-warning"></i> Processing
+                                    @elseif( $appointment->status == 'success')
+                                        <i class="fa fa-dot-circle-o text-success"></i> Success</a>
+                                    @elseif( $appointment->status == 'spam')
+                                        <i class="fa fa-dot-circle-o text-danger"></i> Spam</a>
+                                    @endif
+
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                                    <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Declined</a>
+                                    <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Processing</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i class="fa fa-dot-circle-o text-success"></i> Success</a>
+                                    <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Spam</a>
                                 </div>
                             </div>
                         </td>
+                        <td class="phone_number">{{ $appointment->phone_number }}</td>
+                        <td class="doctor">{{ $appointment->doctor }}</td>
+                        <td>{{ $appointment->created_at }}</td>
+                        <td class="email">{{ $appointment->email }}</td>
                         <td>{{$appointment->updated_at}}</td>
                     </tr>
                     @endforeach
