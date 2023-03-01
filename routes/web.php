@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController as AllUserController;
 use App\Http\Controllers\PortfolioController as ClientPortfolioController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\RolePermissionsController;
+use App\Http\Controllers\Admin\PrescriptionController as AdminPrescriptionController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Patient\PatientController;
@@ -88,7 +89,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-        // All routes for users
+        // Routes for users
         Route::controller(UserController::class)->prefix('/users')->name('users.')->group(function(){
             Route::get('/index', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
@@ -97,10 +98,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/delete', 'delete')->name('delete');
         });
         
+        // Routes for user activities
         Route::controller(UserController::class)->prefix('/users-activity')->name('users-activity.')->group(function(){
             Route::get('/normal', 'activityLog')->name('normal-log');
             Route::get('/advance', 'userActivityLog')->name('advance-log');
         });
+
         // Portfolio Controller
         Route::controller(AppSettingController::class)->prefix('/software-settings')->name('portfolio.')->group(function () {
             Route::get('/profile', 'profile')->name('profile');
@@ -118,6 +121,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/change-status', 'change_status')->name('change-status');
         });
 
+        // Routes for prescription
+        Route::controller(AdminPrescriptionController::class)->prefix('/prescriptions')->name('prescriptions.')->group(function () {
+            Route::get('/all', 'all')->name('all');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/edit', 'edit')->name('edit');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::post('/destroy', 'destroy')->name('destroy');
+        });
         // All routes for portfolio site
         Route::controller(AdminPortfolioController::class)->prefix('/portfolio')->name('portfolio.')->group(function () {
             Route::get('/contact-us-requests', 'contact_us_index')->name('contact_us_index');

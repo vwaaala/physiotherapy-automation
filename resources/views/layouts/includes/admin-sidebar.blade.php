@@ -18,7 +18,7 @@
                     </li>
 
                     <!-- Site Section -->
-                    <li class="menu-title"> <span>Appointment</span> </li>
+                    <li class="menu-title"> <span>Regular Activities</span> </li>
                     <li class="submenu {{ (request()->is('admin/appointments*')) ? 'active' : '' }}">
                         <a href="#">
                             <i class="la la-meetup"></i> <span>Appointments</span> <span class="menu-arrow"></span>
@@ -36,6 +36,27 @@
                                 href="{{ route('admin.appointments.create') }}"
                                 >
                                     Create Appointment
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu {{ (request()->is('admin/prescriptions*')) ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="la la-file-powerpoint"></i> <span>Prescriptions</span> <span class="menu-arrow"></span>
+                        </a>
+                        <ul style="display: none;">
+                            <li>
+                                <a class="{{ (request()->is('admin/prescriptions/all')) ? 'active' : '' }}"
+                                href="{{ route('admin.prescriptions.all') }}"
+                                >
+                                    All Prescriptions
+                                </a>
+                            </li>
+                            <li>
+                                <a class="{{ (request()->is('admin/prescriptions/create')) ? 'active' : '' }}"
+                                href="{{ route('admin.prescriptions.create') }}"
+                                >
+                                    Create Prescriptions
                                 </a>
                             </li>
                         </ul>
