@@ -22,4 +22,9 @@ class Prescription extends Model
         'investigation',
         'creator_id',
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User', 'creator_id');
+    }
 }
