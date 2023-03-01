@@ -80,9 +80,15 @@
 
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Processing</a>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i class="fa fa-dot-circle-o text-success"></i> Success</a>
-                                    <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Spam</a>
+                                    <button class="dropdown-item" onclick="change_status('processing', '{{$appointment->id }}')">
+                                        <i class="fa fa-dot-circle-o text-info"></i> Processing
+                                    </button>
+                                    <button class="dropdown-item" onclick="change_status('success', '{{$appointment->id }}')">
+                                        <i class="fa fa-dot-circle-o text-success"></i> Success
+                                    </button>
+                                    <button class="dropdown-item" onclick="change_status('spam', '{{$appointment->id }}')">
+                                        <i class="fa fa-dot-circle-o text-danger"></i> Spam
+                                    </button>
                                 </div>
                             </div>
                         </td>
@@ -428,7 +434,7 @@
 
     $(form).on('submit', function(event){
         event.preventDefault();
-        let data = new FormData(this);
+        console.log(new FormData(this));
 
         var url = $(this).attr('data-action');
 
@@ -489,5 +495,35 @@
             }
         });
     });
+</script>
+
+<script>
+    function change_status(new_status, id)
+    {
+        const data = new FormData();
+        data.append('new_status', new_status);
+        data.append('id', id);
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ url('admin/appointments/change-status') }}",
+            method: 'POST',
+            data: data,
+            // dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(response)
+            {
+                toastr.success(response.message);
+                alert(response.message);
+                location.reload();
+            },
+            error: function(response) {
+                toastr.error(response.message);
+            }
+        });
+    }
 </script>
 @endpush

@@ -137,4 +137,27 @@ class AppointmentController extends Controller
             ]);
         }
     }
+
+    public function change_status(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(),[
+            'new_status' => 'required|string',
+            'id' => 'required|numeric'
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 419,
+                'message' => $validator->errors(),
+            ]);
+        }else
+        {
+            $appointment = Appointment::where(['id' => $request->id])->update(['status' => $request->new_status]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Appointment status updated',
+            ]);
+        }
+    }
 }

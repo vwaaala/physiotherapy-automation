@@ -115,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
             Route::post('/destroy', 'destroy')->name('destroy');
+            Route::post('/change-status', 'change_status')->name('change-status');
         });
 
         // All routes for portfolio site
