@@ -32,16 +32,22 @@
                             <input class="form-control" type="text" name="name" value="{{ old('name') }}" />
                         </div>
                     </div>
-                    <div class="col-sm-6"> 
+                    <div class="col-sm-6">
                         <label>Email</label>
                         <input class="form-control" type="email" name="email" value="{{ old('email') }}"/>
                     </div>
                 </div>
-                <div class="row"> 
-                    <div class="col-sm-6"> 
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Generate Password<span class="text-secondary"><small> (x112233x)</small></span></label>
+                        <div class="form-group mt-10">
+                            <button class="btn btn-info" id="gen-pass">Gen Password</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4"> 
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+                            <input type="password" class="form-control" name="password" placeholder="Enter Password" id="password" required>
                             @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -49,9 +55,10 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-sm-6"> 
+                    <div class="col-sm-4"> 
                         <label>Repeat Password</label>
-                        <input type="password" class="form-control" name="password_confirmation" placeholder="Choose Repeat Password" required>
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Choose Repeat Password"
+                        id="password1" required>
                     </div>
                 </div>
                 <div class="row"> 
@@ -180,4 +187,11 @@
 <!-- Datetimepicker JS -->
 <script src="{{ URL::to('admin/assets/js/moment.min.js') }}"></script>
 <script src="{{ URL::to('admin/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script>
+    $('#gen-pass').on('click', function(event){
+        event.preventDefault();
+        $('#password').val('x112233x');
+        $('#password1').val('x112233x');
+    });
+</script>
 @endpush

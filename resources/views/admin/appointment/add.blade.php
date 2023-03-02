@@ -52,9 +52,12 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group form-focus select-focus">
-                            <select class="select floating @error('doctor') is-invalid @enderror" name="doctor"> 
-                                <option> -- Select -- </option>
-                                <option value="doctor@physiopoint.com">doctor@physiopoint.com</option>
+                            <select class="select floating @error('doctor') is-invalid @enderror" name="doctor">
+                                @foreach($doctors as $doctor)
+                                <option value="{{ $doctor->email }}">
+                                    {{ $doctor->name }}
+                                </option>
+                            @endforeach
                             </select>
                             <label class="focus-label">Status <span class="text-danger">*</span></label>
                             @error('doctor')

@@ -21,7 +21,8 @@ class AppointmentController extends Controller
     
     public function create()
     {
-        return view('admin.appointment.add');
+        $doctors = User::where(['role' => 'doctor'])->get();
+        return view('admin.appointment.add', compact('doctors'));
     }
     public function store(Request $request){
 

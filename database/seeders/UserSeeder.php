@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $gender=array("male"=>"male","female"=>"female");
-        $role=array("Patient"=>"Patient","Doctor"=>"Doctor", 'Employee' => 'Employee');
+        $role=array("patient"=>"patient","doctor"=>"doctor", 'employee' => 'employee');
         $status_array=array("Active"=>"Active","Inactive"=>"Inactive", 'Disable' => 'Disable');
         $blood_group = array(
             'A+' => 'A+', 'A-' => 'A-',

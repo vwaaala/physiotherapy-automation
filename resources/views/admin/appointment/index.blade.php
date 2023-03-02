@@ -81,7 +81,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <button class="dropdown-item" onclick="change_status('processing', '{{$appointment->id }}')">
-                                        <i class="fa fa-dot-circle-o text-info"></i> Processing
+                                        <i class="fa fa-dot-circle-o text-warning"></i> Processing
                                     </button>
                                     <button class="dropdown-item" onclick="change_status('success', '{{$appointment->id }}')">
                                         <i class="fa fa-dot-circle-o text-success"></i> Success

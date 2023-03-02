@@ -59,6 +59,13 @@ class PrescriptionController extends Controller
         
     }
 
+    public function show(Prescription $prescription, PrescriptionItem $prescriptionItem, $id)
+    {
+        $prescription = $prescription->where(['id'=> $id])->get();
+        $prescriptionItems = $prescriptionItem->where(['prescription_id' => $id ]);
+        dd($prescription->name);
+    }
+
     public function edit()
     {
 
