@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Prescription;
 use App\Models\PrescriptionItem;
+use Brian2694\Toastr\Facades\Toastr;
 use Auth;
 class PrescriptionController extends Controller
 {
@@ -53,8 +54,8 @@ class PrescriptionController extends Controller
                 ]);
             }
         }
-        dd($prescription->id);
-        return view('admin.prescriptions.index');
+        Toastr::success('Created new prescription :)','Success');
+        return redirect()->route('admin.prescriptions.all');
         
     }
 

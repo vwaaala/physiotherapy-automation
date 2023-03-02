@@ -16,6 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Physiopoint'),
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -69,8 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
-
+    'timezone' => env('APP_TIMEZONE', 'Asia/Dhaka'),
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
