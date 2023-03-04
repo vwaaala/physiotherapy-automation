@@ -32,40 +32,30 @@
     <div class="col-sm-6 col-md-3">  
         <div class="form-group form-focus">
             <input type="text" class="form-control floating">
-            <label class="focus-label">User Email</label>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-3">  
-        <div class="form-group form-focus">
-            <input type="text" class="form-control floating">
             <label class="focus-label">User Name</label>
         </div>
     </div>
     <div class="col-sm-6 col-md-3"> 
         <div class="form-group form-focus select-focus">
-            <select class="select floating  @error('roles') is-invalid @enderror" name="role" id="role_name"> 
+            <select class="select floating" id="filter_role"> 
                 <option selected disabled>Select</option>
-                @foreach ($roles as $role)
-                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                @foreach($roles as $role){
+                    <option value='{{ $role->name }}'>{{ $role->name }}</option>
                 @endforeach
             </select>
             <label class="focus-label">User Role</label>
         </div>
-    </div>
-
-    <div class="col-sm-6 col-md-3">  
-        <a href="#" class="btn btn-success btn-block"> Search </a>  
-    </div>     
+    </div>    
 </div>
 <!-- Table  -->
 <div class="row">
     <div class="col-md-12">
         <div class="table-responsive">
-            <table id="user-table" class="table table-striped custom-table datatable" >
+            <table id="user-table" class="table table-striped custom-table" >
                 <thead>
                     <tr>
                         <th class="text-right no-sort">Action</th>
-                        <th>ID</th>
+                        <th type="hidden">ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Gender</th>
@@ -91,7 +81,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="id">{{ $user->id }}</td>
+                        <td type="hidden" class="id">{{ $user->id }}</td>
                         <td>
                             <span hidden class="image">{{ $user->avatar}}</span>
                             <!-- {{ url('employee/profile/'.$user->id) }} -->
@@ -152,6 +142,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $users->links('pagination::bootstrap-4')}}
         </div>
     </div>
 </div>
@@ -511,13 +502,6 @@
 <!-- Datatable JS -->
 <script src="{{ URL::to('admin/assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::to('admin/assets/js/dataTables.bootstrap4.min.js') }}"></script>
-
-<!-- Datatable initiate -->
-<script>
-    $(document).ready(function () {
-        $('#user-table').DataTable();
-    });
-</script>
 
 <script>
     $(document).on('click','.userUpdate',function()

@@ -96,6 +96,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/add', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
             Route::post('/delete', 'delete')->name('delete');
+            Route::get('/filter', 'filterUser')->name('filter');
+            Route::get('/all', 'all')->name('all');
         });
         
         // Routes for user activities

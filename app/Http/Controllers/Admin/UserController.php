@@ -22,11 +22,18 @@ class UserController extends Controller
     }
 
     //
-    public function index()
+    public function index(Request $request)
     {
-        $users = DB::table('users')->get();
+        $users = User::paginate(1);
         $roles = DB::table('roles')->get();
         $user_status = DB::table('user_status_type')->get();
+
+        // filter
+        $searchRole = $request->get('filter_role');
+        if(!empty($searchName))
+        {
+            
+        }
         return view('admin.user.index', compact('users', 'roles', 'user_status', ));
     }
      public function create()
@@ -192,5 +199,95 @@ class UserController extends Controller
     {
         $user_activity_logs = DB::table('user_activity_logs')->get();
         return view('admin.user.user_activity_logs', compact('user_activity_logs'));
+    }
+
+    public function all()
+    {
+        $roles = User::distinct()->get(['role']);
+        return view('admin.user.all', compact('roles'));
+    }
+
+    // filter user
+    public function filterUser(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $rowPerPage = $request->get('length');
+
+        // table sorting
+        $collumnIndex_arr = $request->get('order');
+        $collumnName_arr = $request->get('columns');
+        $search_arr = $request->get('search');
+        $order_arr = $request->get('order');
+
+        $columnIndex = $collumnIndex_arr[0]['column'];
+        $columnName = $collumnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $searchValue = $search_arr['value'];
+
+        // filter requestes
+        $searchRole = $request->get('filter_role');
+        $searchName = $request->get('searchName');
+
+        // total users
+        $records = User::select('count(*) as allcount');
+        // filter conditions
+        if(!empty($searchRole))
+        {
+            $records->where('role', $searchRole);
+        }
+        if(!empty($searchName)){
+            $records->where('name','like','%'.$searchName.'%');
+        }
+
+        $totalRecords = $records->count();
+        
+         // Total records with filter
+        $records = User::select('count(*) as allcount')->where('name', 'like', '%' .$searchValue . '%');
+        if(!empty($searchRole))
+        {
+            $records->where('role', $searchRole);
+        }
+        if(!empty($searchName)){
+            $records->where('name','like','%'.$searchName.'%');
+        }
+        $totalRecordswithFilter = $records->count();
+        $records = User::orderBy($columnName,$columnSortOrder)
+            ->select('users.*')
+            ->where('users.name', 'like', '%' .$searchValue . '%');
+        if(!empty($searchRole))
+        {
+            $records->where('role', $searchRole);
+        }
+        if(!empty($searchName)){
+            $records->where('name','like','%'.$searchName.'%');
+        }
+        $all_users = $records
+            ->skip($start)
+            ->take($rowPerPage)
+            ->get();
+
+        $data_arr = array();
+        foreach($all_users as $user )
+        {
+            $name = $user->name;
+            $email = $user->email;
+            $role = $user->role;
+            $gender = $user->gender;
+            $data_arr[] = array(
+                "name" => $name,
+                "email" => $email,
+                "role" => $role,
+                "gender" => $gender,
+            );             
+        }
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+        return response()->json($response);
+
     }
 }
