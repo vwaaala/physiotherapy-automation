@@ -125,6 +125,7 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(AdminPrescriptionController::class)->prefix('/prescriptions')->name('prescriptions.')->group(function () {
             Route::get('/all', 'all')->name('all');
             Route::get('/create', 'create')->name('create');
+            Route::get('/show/{id}', 'show')->name('show');
             Route::get('/edit', 'edit')->name('edit');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
