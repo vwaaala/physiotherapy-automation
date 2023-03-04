@@ -62,8 +62,20 @@ class PrescriptionController extends Controller
     public function show(Prescription $prescription, PrescriptionItem $prescriptionItem, $id)
     {
         $prescription = $prescription->where(['id'=> $id])->get();
-        $prescriptionItems = $prescriptionItem->where(['prescription_id' => $id ]);
-        dd($prescription->name);
+        $prescriptionItems = $prescriptionItem->where(['prescription_id' => $id ])->get();
+        if( $prescription and $prescriptionItems)
+        {
+            return response()->json([
+                'status' => 200,
+                'prescription_items' => $prescriptionItems
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'No data found'
+            ]);
+        }
     }
 
     public function edit()

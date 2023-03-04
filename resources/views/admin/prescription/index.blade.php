@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class="col-auto float-right ml-auto">
-            <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_appointment">
+            <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_prescription">
                 <i class="fa fa-plus"></i> New Prescription
             </a>
         </div>
@@ -41,30 +41,38 @@
                         <th>Age</th>
                         <th>Weight</th>
                         <th>Gender</th>
+                        <th>Observation</th>
+                        <th>Investigation</th>
                         <th class="text-nowrap">Created At</th>
                         <th class="text-nowrap">Updated At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($prescriptions as $key=>$prescription )
+                    @foreach ($prescriptions as $prescription )
                     <tr>
                         <td class="text-right">
                             <div class="dropdown dropdown-action">
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item appointment-edit" href="#" data-toggle="modal" data-target="#edit_appointment"><i class="fa fa-pencil m-r-5"></i>Edit</a>
-                                    <a class="dropdown-item appointment-delete" href="#" data-toggle="modal" data-target="#delete_appointment"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                    <a class="dropdown-item prescription-view"
+                                        data-toggle="modal" data-target="#view_prescription"
+                                        data-url="{{ route('admin.prescriptions.show', $prescription->id) }}"
+                                        href="#"><i class="fa fa-pencil m-r-5"></i>View</a>
+                                    <a class="dropdown-item appointment-edit" href="#" data-toggle="modal" data-target="#edit_prescription"><i class="fa fa-pencil m-r-5"></i>Edit</a>
+                                    <a class="dropdown-item appointment-delete" href="#" data-toggle="modal" data-target="#delete_prescription"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                 </div>
                             </div>
                         </td>
                         <td class="id">{{ $prescription->id }}</td>
-                        <td class="name">{{ $prescription->name }}</td>
-                        <td class="text-center">{{ $prescription->creator->email }}</td>
+                        <td class="patient-name">{{ $prescription->name }}</td>
+                        <td class="text-center doctor-name">{{ $prescription->creator->name }}</td>
                         <td class="phone-number">{{ $prescription->phone_number }}</td>
-                        <td>{{ $prescription->age }}</td>
-                        <td>{{ $prescription->weight }}</td>
-                        <td>{{ $prescription->gender }}</td>
-                        <td>{{ $prescription->created_at }}</td>
+                        <td class="patient-age">{{ $prescription->age }}</td>
+                        <td class="patient-weight">{{ $prescription->weight }}</td>
+                        <td class="patient-gender">{{ $prescription->gender }}</td>
+                        <td class="patient-observation">{{ $prescription->observation }}</td>
+                        <td class="patient-investigation">{{ $prescription->investigation }}</td>
+                        <td class="created-at">{{ $prescription->created_at->format('d M Y') }}</td>
                         <td>{{ $prescription->updated_at }}</td>
                     </tr>
                     @endforeach
@@ -75,8 +83,8 @@
 </div>
 
 
-<!-- Modal Add appointment -->
-<div id="add_appointment" class="modal custom-modal fade" role="dialog">
+<!-- Modal Add prescription -->
+<div id="add_prescription" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -236,6 +244,52 @@
     </div>
 </div>
 
+<!-- Modal View prescription -->
+<div id="view_prescription" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-secondary">View Prescription</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-basic">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="profile-info-left">
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <ul class="personal-info">
+                                <li>
+                                
+                                </li>
+                                <li>
+                                    <div class="table-responsive">
+                                        <table id="prescription-item" class="table table-striped custom-table" >
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Name</th>
+                                                    <th>Dose</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="prescription-card">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('js')
@@ -253,18 +307,49 @@
     });
 </script>
 <script type="text/javascript">
-    var i = 0;
+
+    var p_item_index = 0;
     $("#add-btn").click(function(){
-        ++i;
+        ++p_item_index;
         $("#prescription_item")
             .append(
-                '<tr><td><input type="text" name="item['+i+'][name]" placeholder="Enter Name" class="form-control" /></td><td><input type="text" name="item['+i+'][dose]" placeholder="Enter Dose" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr"><i class="las la-trash"></i></button></td></tr>'
+                '<tr><td><input type="text" name="item['+p_item_index+'][name]" placeholder="Enter Name" class="form-control" /></td><td><input type="text" name="item['+p_item_index+'][dose]" placeholder="Enter Dose" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr"><i class="las la-trash"></i></button></td></tr>'
             );
     });
 
     $(document).on('click', '.remove-tr', function(){  
         $(this).parents('tr').remove();
     });
+
+    $(document).on('click','.prescription-view', function(){
+        var _this = $(this).parents('tr');
+        
+        $('.profile-info-left').replaceWith('<div class="profile-info-left"><h3 class="user-name m-t-0 mb-0">'+_this.find('.patient-name').text()+'</h3><h6 class="text-muted">'+_this.find('.patient-age').text()+' yr old with '+_this.find('.patient-weight').text()+'kg in '+_this.find('.patient-gender').text()+' format</h6><small class="text-muted">'+ _this.find('.phone-number').text()+'</small><div class="staff-id">Doctor : '+_this.find('.doctor-name').text()+'</div><div class="small doj text-muted">Prescribed on : '+_this.find('.created-at').text()+'</div><br/><div class="small doj text-muted">Observation : '+_this.find('.patient-observation').text()+'</div><br/><div class="small doj text-muted">Invdestigation : '+_this.find('.patient-investigation').text()+'</div></div>');
+        
+        const url = $(this).data('url');
+        $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+
+                success: function (data) {
+                    prescription_card(data.prescription_items);
+                },
+                error: function(error) {
+                    toastr.error(error.message);
+                }
+        });
+    });
+
+    function prescription_card(data){
+        
+        data.forEach((item) => {
+            $('.prescription-card')
+                .append('<tr><td></td><td>'+item.name+'</td><td>'+item.dose+'</td></tr>');
+        });
+
+
+    }
         
 </script>
 @endpush

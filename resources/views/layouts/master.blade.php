@@ -29,9 +29,9 @@
 		@yield('header')
     </head>
     <body>
-		<!-- Main Wrapper -->
         <div class="main-wrapper">
-		
+			
+
 			<!-- Header -->
             @include('layouts.includes.navbar')
 			<!-- /Header -->
@@ -56,9 +56,19 @@
 				<!-- Page Content -->
                 <div class="content container-fluid">
 					{!! Toastr::message() !!}
-					<!-- Content Starts -->
+					<!-- Preloader Starts -->
+					<!-- <div class="d-flex justify-content-center preloader">
+						<div class="spinner-grow text-success" role="status">
+							<span class="sr-only">Loading...</span>
+						</div>
+					</div> -->
+					<!-- /Preloader End -->
+
+					<!-- Loaded Content Starts -->
+					<div id="content">
 						@yield('content')
-					<!-- /Content End -->
+					</div>
+					<!-- /Loaded Content End -->
 					
                 </div>
 				<!-- /Page Content -->
@@ -86,6 +96,17 @@
 		<!-- Custom JS -->
 		<script src="{{ URL::to('admin/assets/js/app.js') }}"></script>
 
+		<script>
+			$(document).on('load', function (){
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+					
+				});
+				// console.log($('meta[name="csrf-token"]').attr('content'));
+			});
+		</script>
 
 		{!! Toastr::message() !!}
 		@stack('js')

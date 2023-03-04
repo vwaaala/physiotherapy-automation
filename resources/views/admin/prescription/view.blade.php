@@ -39,14 +39,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($prescriptionItems as $prescriptionItem )
-                    <tr>
-                        <td>{{ $prescriptionItem->name }}</td>
-                        <td>{{ $prescriptionItem->dose }}</td>
-                        <td>{{ $prescriptionItem->created_at }}</td>
-                        <td>{{ $prescriptionItem->address }}</td>
-                    </tr>
-                    @endforeach
+                    
                 </tbody>
             </table>
         </div>
