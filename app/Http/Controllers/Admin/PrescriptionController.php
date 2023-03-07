@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Prescription;
 use App\Models\PrescriptionItem;
+use App\Models\TherapyPackage;
+use App\Models\Therapy;
 use Brian2694\Toastr\Facades\Toastr;
 use Auth;
 class PrescriptionController extends Controller
@@ -58,16 +60,20 @@ class PrescriptionController extends Controller
         return redirect()->route('admin.prescriptions.all');
         
     }
-
-    public function show(Prescription $prescription, PrescriptionItem $prescriptionItem, $id)
+    
+    // API
+    public function show(Prescription $prescription, PrescriptionItem $prescriptionItem, $prescription_id)
     {
-        $prescription = $prescription->where(['id'=> $id])->get();
-        $prescriptionItems = $prescriptionItem->where(['prescription_id' => $id ])->get();
+        $prescription = $prescription->where(['id'=> $prescription_id])->get();
+        $prescriptionItems = $prescriptionItem->where(['prescription_id' => $prescription_id ])->get();
         if( $prescription and $prescriptionItems)
         {
+            $package_status = TherapyPackage::where('prescription_id', 1)->first();
+
             return response()->json([
                 'status' => 200,
-                'prescription_items' => $prescriptionItems
+                'prescription_items' => $prescriptionItems,
+                'package' => $package_status
             ]);
         }
         else{
@@ -91,5 +97,25 @@ class PrescriptionController extends Controller
     public function delete(Request $request)
     {
         
+    }
+
+    public function detail(Prescription $prescription, PrescriptionItem $prescriptionItem, $prescription_id)
+    {
+        $prescription = $prescription->where(['id'=> $prescription_id])->first();
+        $prescriptionItems = $prescriptionItem->where(['prescription_id' => $prescription_id ])->get();
+        if( $prescription and $prescriptionItems)
+        {
+            $package = TherapyPackage::where('prescription_id', $prescription->id)->first();
+            $therapy_attendances = Therapy::where(['package_id' => $package->id])->get();
+            $target_attendance = $package->daily_times * $package->num_days;
+            $package_progress = ($therapy_attendances->count() / $target_attendance) * 100;
+            return view(
+                'admin.prescription.detail',
+                compact('prescription', 'prescriptionItems', 'package', 'package_progress', 'therapy_attendances')
+            );
+        }
+        else{
+            return view('admin.prescription.detail');
+        }        
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\TherapyPackage;
 class Prescription extends Model
 {
     use HasFactory;
@@ -26,5 +27,12 @@ class Prescription extends Model
     public function creator()
     {
         return $this->belongsTo('App\Models\User', 'creator_id');
+    }
+
+
+
+    public function package(): HasOne
+    {
+        return $this->hasOne(TherapyPackage::class);
     }
 }

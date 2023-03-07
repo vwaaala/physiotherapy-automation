@@ -64,7 +64,9 @@
                             </div>
                         </td>
                         <td class="id">{{ $prescription->id }}</td>
-                        <td class="patient-name">{{ $prescription->name }}</td>
+                        <td class="patient-name">
+                            <a href="{{route('admin.prescriptions.detail', $prescription->id)}}">{{ $prescription->name }}</a>
+                            </td>
                         <td class="text-center doctor-name">{{ $prescription->creator->name }}</td>
                         <td class="phone-number">{{ $prescription->phone_number }}</td>
                         <td class="patient-age">{{ $prescription->age }}</td>
@@ -267,6 +269,7 @@
                                 
                                 </li>
                                 <li>
+                                    
                                     <div class="table-responsive">
                                         <table id="prescription-item" class="table table-striped custom-table" >
                                             <thead>
@@ -333,6 +336,7 @@
                 dataType: 'json',
 
                 success: function (data) {
+                    console.log(data.package);
                     prescription_card(data.prescription_items);
                 },
                 error: function(error) {

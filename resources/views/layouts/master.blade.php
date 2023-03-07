@@ -19,6 +19,14 @@
 		
 		<!-- Lineawesome CSS -->
         <link rel="stylesheet" href="{{ URL::asset('admin/assets/css/line-awesome.min.css')}}">
+		<!-- Select2 CSS -->
+		<link rel="stylesheet" href="{{ URL::to('admin/assets/css/select2.min.css') }}">
+
+		<!-- Datetimepicker CSS -->
+		<link rel="stylesheet" href="{{ URL::to('admin/assets/css/bootstrap-datetimepicker.min.css') }}">
+
+		<!-- Datatable CSS -->
+		<link rel="stylesheet" href="{{ URL::to('admin/assets/css/dataTables.bootstrap4.min.css') }}">
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="{{ URL::asset('admin/assets/css/style.css')}}">
@@ -89,6 +97,13 @@
 		
 		<!-- Slimscroll JS -->
 		<script src="{{ URL::to('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
+
+		<!-- Select2 JS -->
+		<script src="{{ URL::to('admin/assets/js/select2.min.js') }}"></script>
+
+		<!-- Datetimepicker JS -->
+		<script src="{{ URL::to('admin/assets/js/moment.min.js') }}"></script>
+		<script src="{{ URL::to('admin/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 		<!-- Toastr JS -->
 		<script src="{{ URL::to('admin/assets/js/toastr.min.js') }}"></script>

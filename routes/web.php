@@ -19,6 +19,9 @@ use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentControll
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\Doctor\DoctorController;
+use App\Http\Controllers\TherapyPackageController;
+use App\Http\Controllers\TherapyController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -128,11 +131,32 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/all', 'all')->name('all');
             Route::get('/create', 'create')->name('create');
             Route::get('/show/{id}', 'show')->name('show');
+            Route::get('/detail/{id}', 'detail')->name('detail');
             Route::get('/edit', 'edit')->name('edit');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
             Route::post('/destroy', 'destroy')->name('destroy');
         });
+
+        // Therapy pcakage Controller
+        Route::controller(TherapyPackageController::class)->prefix('/therapy-packages')->name('therapy-packages.')->group(function () {
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create/{prescription_id}', 'create')->name('create');
+            Route::get('/new', 'new')->name('new');
+            Route::get('/show/{package_id}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/edit', 'edit')->name('edit');
+        });
+
+        // Therapy Session Controller
+        Route::controller(TherapyController::class)->prefix('/therapy-sessions')->name('therapy-sessions.')->group(function () {
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/show/{session_id}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+        });
+
+
         // All routes for portfolio site
         Route::controller(AdminPortfolioController::class)->prefix('/portfolio')->name('portfolio.')->group(function () {
             Route::get('/contact-us-requests', 'contact_us_index')->name('contact_us_index');

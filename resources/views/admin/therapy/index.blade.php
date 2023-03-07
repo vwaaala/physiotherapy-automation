@@ -1,14 +1,7 @@
 @extends('layouts.master')
-@section('header')
-<!-- Datatable CSS -->
-<link rel="stylesheet" href="{{ URL::to('admin/assets/css/dataTables.bootstrap4.min.css') }}">
+@section('css')
 
-<!-- Select2 CSS -->
-<link rel="stylesheet" href="{{ URL::to('admin/assets/css/select2.min.css') }}">
-
-<!-- Datetimepicker CSS -->
-<link rel="stylesheet" href="{{ URL::to('admin/assets/css/bootstrap-datetimepicker.min.css') }}">
-<title>Physiopoint - Users</title>
+<title>Physiopoint - Therapy Sessions</title>
 @endsection
 @section('content')
 <!-- Page Header -->
@@ -17,39 +10,40 @@
         <div class="col">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Prescription View</li>
+                <li class="breadcrumb-item active">Therapy Sessions</li>
             </ul>
         </div>
     </div>
 </div>
 <!-- /Page Header -->
-
-
-<!-- Table  -->
 <div class="row">
     <div class="col-md-12">
         <div class="table-responsive">
-            <table id="prescription-item" class="table table-striped custom-table datatable" >
+            <table id="activity-log" class="table table-striped custom-table datatable">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Dose</th>
+                        <th>ID</th>
+                        <th>Package</th>
+                        <th>Assistant</th>
                         <th>Created at</th>
-                        <th>Update at</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    @foreach($therapies as $therapy)
+                    <tr>
+                        <td></td>
+                        <td>{{$therapy->package_id}}</td>
+                        <td>{{$therapy->assistant_id}}</td>
+                        <td>{{$therapy->created_at}}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-
 @endsection
 
 @push('js')
-
 
 @endpush

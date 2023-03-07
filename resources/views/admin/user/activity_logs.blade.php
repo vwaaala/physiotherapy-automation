@@ -50,7 +50,7 @@
 </div>
 @endsection
 
-@section('js')
+@push('js')
 <!-- Select2 JS -->
 <script src="{{ URL::to('assets/js/select2.min.js') }}"></script>
 
@@ -68,4 +68,4 @@
         $('#activity-log').DataTable();
     });
 </script>
-@endsection
+@endpush

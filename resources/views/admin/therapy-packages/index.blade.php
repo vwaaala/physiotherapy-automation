@@ -8,6 +8,7 @@
 
 <!-- Datetimepicker CSS -->
 <link rel="stylesheet" href="{{ URL::to('assets/css/bootstrap-datetimepicker.min.css') }}">
+<title>Physiopoint - Therapy Package</title>
 @endsection
 @section('content')
 <!-- Page Header -->
@@ -16,7 +17,7 @@
         <div class="col">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">User Activity Log</li>
+                <li class="breadcrumb-item active">Therapy Packages</li>
             </ul>
         </div>
     </div>
@@ -25,28 +26,28 @@
 <div class="row">
     <div class="col-md-12">
         <div class="table-responsive">
-            <table id="user-activity-log" class="table table-striped custom-table datatable">
+            <table id="activity-log" class="table table-striped custom-table datatable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                        <th>Role</th>
-                        <th>Activity</th>
-                        <th>Reference</th>
-                        <th>Time</th>
+                        <th>Patient</th>
+                        <th>Prescription</th>
+                        <th>Price</th>
+                        <th>Daily Times</th>
+                        <th>Number of days</th>
+                        <th>Discount</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($user_activity_logs as $key=>$activity )
+                    @foreach($packages as $package)
                     <tr>
-                        <td class="id">{{ $activity->id }}</td>
-                        <td class="email">{{ $activity->email }}</td>
-                        <td>{{ $activity->status}}</td>
-                        <td>{{ $activity->role}}</td>
-                        <td>{{ $activity->action}}</td>
-                        <td>{{ $activity->reference}}</td>
-                        <td>{{ $activity->created_at }}</td>
+                        <td></td>
+                        <td>{{$package->patient_phonenumber}}</td>
+                        <td><a href="{{ route('admin.prescriptions.detail', $package->prescription_id) }}">{{$package->prescription_id}}</a></td>
+                        <td>{{$package->price}}</td>
+                        <td>{{$package->daily_times}}</td>
+                        <td>{{$package->num_days}}</td>
+                        <td>{{$package->discount}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -64,14 +65,5 @@
 <script src="{{ URL::to('assets/js/moment.min.js') }}"></script>
 <script src="{{ URL::to('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
-<!-- Datatable JS -->
-<script src="{{ URL::to('assets/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ URL::to('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
-<!-- Datatable initiate -->
-<script>
-    $(document).ready(function () {
-        $('#user-activity-log').DataTable();
-    });
-</script>
 @endpush

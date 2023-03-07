@@ -21,7 +21,7 @@
                     <li class="menu-title"> <span>Regular Activities</span> </li>
                     <li class="submenu {{ (request()->is('admin/appointments*')) ? 'active' : '' }}">
                         <a href="#">
-                            <i class="la la-meetup"></i> <span>Appointments</span> <span class="menu-arrow"></span>
+                            <i class="la la-clipboard-list"></i> <span>Appointments</span> <span class="menu-arrow"></span>
                         </a>
                         <ul style="display: none;">
                             <li>
@@ -57,6 +57,43 @@
                                 href="{{ route('admin.prescriptions.create') }}"
                                 >
                                     Create Prescriptions
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu {{ (request()->is('admin/therapy-packages*')) ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="la la-tape"></i> <span>Package</span> <span class="menu-arrow"></span>
+                        </a>
+                        <ul style="display: none;">
+                            <li>
+                                <a class="{{ (request()->is('admin/therapy-packages/index')) ? 'active' : '' }}"
+                                href="{{ route('admin.therapy-packages.index') }}"
+                                >
+                                    All Packages
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu {{ (request()->is('admin/therapy-sessions*')) ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="la la-hand-holding-heart"></i> <span>Therapy Session</span> <span class="menu-arrow"></span>
+                        </a>
+                        <ul style="display: none;">
+                            <li>
+                                <a class="{{ (request()->is('admin/therapy-sessions/index')) ? 'active' : '' }}"
+                                href="{{ route('admin.therapy-sessions.index') }}"
+                                >
+                                    All Session
+                                </a>
+                            </li>
+                            <li>
+                                <a class="{{ (request()->is('admin/therapy-sessions/create')) ? 'active' : '' }}"
+                                href="{{ route('admin.therapy-sessions.create') }}"
+                                >
+                                    Add New Session
                                 </a>
                             </li>
                         </ul>
