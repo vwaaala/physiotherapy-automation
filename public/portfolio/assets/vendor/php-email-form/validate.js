@@ -58,12 +58,12 @@
       },
     })
     .then(response => {
+      console.log(response);
       return response;
     })
     .then(data => {
       thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.status === 200) {
-        console.log(data.status);
+      if (data.status == 200) {
         thisForm.querySelector('.sent-message').classList.add('d-block');
         thisForm.reset(); 
       } else {

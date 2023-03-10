@@ -434,8 +434,6 @@
 
     $(form).on('submit', function(event){
         event.preventDefault();
-        console.log(new FormData(this));
-
         var url = $(this).attr('data-action');
 
         $.ajax({
@@ -471,7 +469,6 @@
 
     $(form).on('submit', function(event){
         event.preventDefault();
-        let data = new FormData(this);
 
         var url = $(this).attr('data-action');
 

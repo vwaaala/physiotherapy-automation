@@ -269,4 +269,72 @@
    */
   new PureCounter();
 
+  /**
+   *  AJax setup
+   */
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+    
+  });
+  /**
+   * Handle forms
+   */
+  let forms = document.querySelectorAll('.php-email-form');
+
+  forms.forEach(function(e){
+    e.addEventListener('submit', function(event){
+      event.preventDefault();
+
+      let thisForm = this;
+
+      let url = thisForm.getAttribute('data-action');
+
+      thisForm.querySelector('.loading').classList.add('d-block');
+      thisForm.querySelector('.error-message').classList.remove('d-block');
+      thisForm.querySelector('.sent-message').classList.remove('d-block');
+
+      let formData = new FormData(thisForm);
+
+      ajax_form_submit(thisForm, url, formData);
+    })
+  });
+
+  /**
+   *  ajax forms
+   */
+  function ajax_form_submit(form, url, data){
+
+    $.ajax({
+      url: url,
+      method: 'POST',
+      data: data,
+      dataType: 'JSON',
+      contentType: false,
+      cache: false,
+      processData: false,
+      success:function(response)
+      {
+        console.log(response);
+        if (response.status == 200) {
+          form.querySelector('.loading').classList.remove('d-block');
+          form.querySelector('.sent-message').classList.add('d-block');
+          form.reset(); 
+        } else {
+          throw new Error(response ? response : 'Form submission failed and no error message returned from: ' + url); 
+        }
+      },
+      error: function(error) {
+        displayError(form, error);
+      }
+  });
+  }
+
+  function displayError(thisForm, error) {
+    thisForm.querySelector('.loading').classList.remove('d-block');
+    thisForm.querySelector('.error-message').innerHTML = error;
+    thisForm.querySelector('.error-message').classList.add('d-block');
+  }
+
 })()
